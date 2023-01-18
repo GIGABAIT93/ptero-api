@@ -36,19 +36,19 @@ class PteroAPI
 
         $this->api = $api_key;
         $this->url = $base_url;
-        $this->api_type = $api_type;
+        $this->api_type = 'api/' . $api_type;
 
         // Aplications
-        $this->servers = new Servers();
-        $this->locations = new Locations();
-        $this->allocations = new Allocations();
-        $this->users = new Users();
-        $this->nests = new Nests();
-        $this->eggs = new Eggs();
-        $this->node = new Node();
+        $this->servers = new Servers($this);
+        $this->locations = new Locations($this);
+        $this->allocations = new Allocations($this);
+        $this->users = new Users($this);
+        $this->nests = new Nests($this);
+        $this->eggs = new Eggs($this);
+        $this->node = new Node($this);
 
         // Client
-        $this->network = new Network();
+        $this->network = new Network($this);
     }
 
     protected function makeRequest($method, $url, $data = null)
@@ -64,8 +64,15 @@ class PteroAPI
         if (!is_null($data)) {
             $options['form_params'] = $data;
         }
-        $response = $this->client->request($method, $url, $options);
-        $responseData = json_decode($response->getBody(), true);
-        return $responseData;
+        try {
+            $response = $this->client->request($method, $url, $options);
+            $responseData = json_decode($response->getBody(), true);
+            if ($responseData == null) {
+                return true;
+            }
+            return $responseData;
+        } catch (\Exception $e) {
+            return $e;
+        }
     }
 }

@@ -7,14 +7,16 @@ use Gigabait\PteroApi\PteroAPI;
 class Network extends PteroAPI
 {
     private $endpoint;
-    public function __construct()
+    protected $ptero;
+    public function __construct(PteroAPI $ptero)
     {
-        $this->endpoint = 'api/' . $this->api_type . '/servers';
+        $this->ptero = $ptero;
+        $this->endpoint = $ptero->api_type . '/servers';
     }
 
     public function set($server_identifier, int $allocation_id, $params)
     {
-        return $this->makeRequest(
+        return $this->ptero->makeRequest(
             'POST',
             $this->endpoint . '/' . $server_identifier . '/network/allocations/' . $allocation_id,
             $params

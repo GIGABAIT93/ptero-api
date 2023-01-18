@@ -7,30 +7,50 @@ use Gigabait\PteroApi\PteroAPI;
 class Allocations extends PteroAPI
 {
     private $endpoint;
-    public function __construct()
+    protected $ptero;
+    public function __construct(PteroAPI $ptero)
     {
-        $this->endpoint = 'api/' . $this->api_type . '/nodes';
+        $this->ptero = $ptero;
+        $this->endpoint = $ptero->api_type . '/nodes';
     }
 
-    public function get(int $id, int $page = null)
+    /**
+     * Summary of get
+     * @param int $node_id
+     * @param int|null $page
+     * @return mixed
+     */
+    public function get(int $node_id, int $page = null)
     {
-        $resp = $this->makeRequest('GET', $this->endpoint . '/' . $id . '/allocations');
+        $resp = $this->ptero->makeRequest('GET', $this->endpoint . '/' . $node_id . '/allocations');
         $total_pages = $resp['meta']['pagination']['total_pages'];
         if ($page == null) {
-            $resp = $this->makeRequest('GET', $this->endpoint . '/' . $id . '/allocations', ['page' => $total_pages]);
+            $resp = $this->ptero->makeRequest('GET', $this->endpoint . '/' . $node_id . '/allocations', ['page' => $total_pages]);
         } else {
-            $resp = $this->makeRequest('GET', $this->endpoint . '/' . $id . '/allocations', ['page' => $page]);
+            $resp = $this->ptero->makeRequest('GET', $this->endpoint . '/' . $node_id . '/allocations', ['page' => $page]);
         }
         return $resp;
     }
 
+    /**
+     * Summary of create
+     * @param int $id
+     * @param array $params  ['ip' => '0.0.0.0', 'ports' => [25580, 25581]]
+     * @return mixed
+     */
     public function create(int $id, array $params)
     {
-        return $this->makeRequest('POST', $this->endpoint . '/' . $id . '/allocations', $params);
+        return $this->ptero->makeRequest('POST', $this->endpoint . '/' . $id . '/allocations', $params);
     }
 
-    public function delete(int $id, int $alloc_id)
+    /**
+     * Summary of delete
+     * @param int $id
+     * @param int $alloc_id
+     * @return mixed
+     */
+    public function delete(int $node_id, int $allocation_id)
     {
-        return $this->makeRequest('DELETE', $this->endpoint . '/' . $id . '/allocations/' . $alloc_id);
+        return $this->ptero->makeRequest('DELETE', $this->endpoint . '/' . $node_id . '/allocations/' . $allocation_id);
     }
 }

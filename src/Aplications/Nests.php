@@ -7,18 +7,20 @@ use Gigabait\PteroApi\PteroAPI;
 class Nests extends PteroAPI
 {
     private $endpoint;
-    public function __construct()
+    protected $ptero;
+    public function __construct(PteroAPI $ptero)
     {
-        $this->endpoint = 'api/' . $this->api_type . '/nests';
+        $this->ptero = $ptero;
+        $this->endpoint = $ptero->api_type . '/nests';
     }
 
     public function getAll()
     {
-        return $this->makeRequest('GET', $this->endpoint);
+        return $this->ptero->makeRequest('GET', $this->endpoint);
     }
 
     public function get(int $id)
     {
-        return $this->makeRequest('GET', $this->endpoint . '/' . $id);
+        return $this->ptero->makeRequest('GET', $this->endpoint . '/' . $id);
     }
 }

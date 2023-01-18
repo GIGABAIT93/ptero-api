@@ -7,8 +7,10 @@ use Gigabait\PteroApi\PteroAPI;
 class Users extends PteroAPI
 {
     private $endpoint;
-    public function __construct()
+    protected $ptero;
+    public function __construct(PteroAPI $ptero)
     {
-        $this->endpoint = 'api/' . $this->api_type . '/users';
+        $this->ptero = $ptero;
+        $this->endpoint = $ptero->api_type . '/users';
     }
 }

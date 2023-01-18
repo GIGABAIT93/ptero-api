@@ -7,18 +7,20 @@ use Gigabait\PteroApi\PteroAPI;
 class Eggs extends PteroAPI
 {
     private $endpoint;
-    public function __construct()
+    protected $ptero;
+    public function __construct(PteroAPI $ptero)
     {
-        $this->endpoint = 'api/' . $this->api_type . '/nests';
+        $this->ptero = $ptero;
+        $this->endpoint = $ptero->api_type . '/nests';
     }
 
     public function getAll(int $nest_id)
     {
-        return $this->makeRequest('GET', $this->endpoint . '/' . $nest_id . '/eggs?include=nest,servers,variables');
+        return $this->ptero->makeRequest('GET', $this->endpoint . '/' . $nest_id . '/eggs?include=nest,servers,variables');
     }
 
     public function get(int $nest_id, int $id)
     {
-        return $this->makeRequest('GET', $this->endpoint . '/' . $nest_id . '/eggs/' . $id . '?include=variables');
+        return $this->ptero->makeRequest('GET', $this->endpoint . '/' . $nest_id . '/eggs/' . $id . '?include=variables');
     }
 }
