@@ -1,0 +1,42 @@
+{
+    "name": "gigabait/ptero-api",
+    "description": "PterodactilAPI PHP SDK",
+    "keywords": [
+        "gigabait",
+        "ptero-api",
+        "pterodactyl",
+        "php",
+        "sdk",
+        "api"
+    ],
+    "homepage": "https://github.com/gigabait93/ptero-api",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "GIGABAIT",
+            "email": "xgigabaitx@gmail.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.4|^8.0",
+        "illuminate/support": "^8.0",
+        "guzzlehttp/guzzle": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Gigabait\\PteroApi\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gigabait\\PteroApi\\PteroApiServiceProvider"
+            ],
+            "aliases": {
+                "PteroApi": "Gigabait\\PteroApi\\PteroApi"
+            }
+        }
+    }
+}
