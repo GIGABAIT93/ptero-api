@@ -62,7 +62,7 @@ class PteroAPI
         ]);
         $options = [];
         if (!is_null($data)) {
-            $options['json'] = $data;
+            $options['form_params'] = $data;
         }
         $response = $this->client->request($method, $url, $options);
         $responseData = json_decode($response->getBody(), true);
