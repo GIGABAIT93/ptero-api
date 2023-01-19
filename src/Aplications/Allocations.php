@@ -35,7 +35,7 @@ class Allocations extends PteroAPI
     /**
      * Summary of create
      * @param int $id
-     * @param array $params  ['ip' => '0.0.0.0', 'ports' => [25580, 25581]]
+     * @param array $params ['ip' => '0.0.0.0', 'ports' => [25580, 25581]]
      * @return mixed
      */
     public function create(int $id, array $params)

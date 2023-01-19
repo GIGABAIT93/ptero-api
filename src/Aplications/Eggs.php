@@ -14,13 +14,24 @@ class Eggs extends PteroAPI
         $this->endpoint = $ptero->api_type . '/nests';
     }
 
-    public function getAll(int $nest_id)
+    /**
+     * Summary of all
+     * @param int $nest_id
+     * @return mixed
+     */
+    public function all(int $nest_id)
     {
         return $this->ptero->makeRequest('GET', $this->endpoint . '/' . $nest_id . '/eggs?include=nest,servers,variables');
     }
 
-    public function get(int $nest_id, int $id)
+    /**
+     * Summary of get
+     * @param int $nest_id
+     * @param int $egg_id
+     * @return mixed
+     */
+    public function get(int $nest_id, int $egg_id)
     {
-        return $this->ptero->makeRequest('GET', $this->endpoint . '/' . $nest_id . '/eggs/' . $id . '?include=variables');
+        return $this->ptero->makeRequest('GET', $this->endpoint . '/' . $nest_id . '/eggs/' . $egg_id . '?include=variables');
     }
 }
