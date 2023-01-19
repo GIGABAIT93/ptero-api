@@ -33,7 +33,13 @@ class PteroAPI
 
     public $network;
 
-    public function __construct($api_key, $base_url, $api_type = 'application')
+    /**
+     * Summary of __construct
+     * @param string $api_key
+     * @param string $base_url
+     * @param string $api_type
+     */
+    public function __construct(string $api_key, string $base_url, string $api_type = 'application')
     {
 
         $this->api = $api_key;

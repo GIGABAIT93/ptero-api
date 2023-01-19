@@ -33,9 +33,6 @@
     },
     "extra": {
         "laravel": {
-            "providers": [
-                "Gigabait\\PteroApi\\PteroApiServiceProvider"
-            ],
             "aliases": {
                 "PteroApi": "Gigabait\\PteroApi\\PteroApi"
             }
