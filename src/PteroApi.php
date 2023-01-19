@@ -5,6 +5,7 @@ namespace Gigabait\PteroApi;
 use Gigabait\PteroApi\Aplications\Servers;
 use Gigabait\PteroApi\Aplications\Locations;
 use Gigabait\PteroApi\Aplications\Allocations;
+use Gigabait\PteroApi\Aplications\Databases;
 use Gigabait\PteroApi\Aplications\Users;
 use Gigabait\PteroApi\Aplications\Nests;
 use Gigabait\PteroApi\Aplications\Eggs;
@@ -22,6 +23,7 @@ class PteroAPI
     protected $client;
 
     public $servers;
+    public $databases;
     public $locations;
     public $allocations;
     public $users;
@@ -40,6 +42,7 @@ class PteroAPI
 
         // Aplications
         $this->servers = new Servers($this);
+        $this->databases = new Databases($this);
         $this->locations = new Locations($this);
         $this->allocations = new Allocations($this);
         $this->users = new Users($this);
