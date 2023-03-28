@@ -81,9 +81,9 @@ class PteroAPI
             }
             return $responseData;
         } catch (\Exception $e) {
-            if (env('APP_DEBUG')) {
-                dd($e);
-            }
+            // if (env('APP_DEBUG')) {
+            //     dd($e);
+            // }
             return $e;
         }
     }
