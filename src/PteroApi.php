@@ -73,12 +73,15 @@ class PteroAPI
         if (!is_null($data)) {
             $options['form_params'] = $data;
         }
-
-        $response = $this->client->request($method, $url, $options);
-        $responseData = json_decode($response->getBody(), true);
-        if ($responseData == null) {
-            return true;
+        try {
+            $response = $this->client->request($method, $url, $options);
+            $responseData = json_decode($response->getBody(), true);
+            if ($responseData == null) {
+                return true;
+            }
+            return $responseData;
+        } catch (\Exception $e) {
+            return $this->client->request($method, $url, $options);
         }
-        return $responseData;
     }
 }
