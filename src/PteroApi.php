@@ -83,10 +83,9 @@ class PteroAPI
             return $responseData;
         } catch (RequestException $e) {
             if ($e->hasResponse()) {
-                $status = $e->getResponse()->getStatusCode();
-                echo "Помилка запиту: " . $status;
+                return $e->getResponse();
             } else {
-                echo "Помилка запиту без статус-коду: " . $e->getMessage();
+                return $e->getMessage();
             }
         }
     }
