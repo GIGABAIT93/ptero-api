@@ -14,6 +14,7 @@ use Gigabait\PteroApi\Aplications\Node;
 use Gigabait\PteroApi\Client\Server\Network;
 
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\RequestException;
 
 class PteroAPI
 {
@@ -80,8 +81,13 @@ class PteroAPI
                 return true;
             }
             return $responseData;
-        } catch (\Exception $e) {
-            return $this->client->request($method, $url, $options);
+        } catch (RequestException $e) {
+            if ($e->hasResponse()) {
+                $status = $e->getResponse()->getStatusCode();
+                echo "Помилка запиту: " . $status;
+            } else {
+                echo "Помилка запиту без статус-коду: " . $e->getMessage();
+            }
         }
     }
 }
