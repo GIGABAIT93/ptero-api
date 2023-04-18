@@ -44,6 +44,23 @@ class Servers extends PteroAPI
     }
 
     /**
+     * Summary of get
+     * @param string $uuid
+     * @return mixed
+     */
+    public function getUuid(string $uuid)
+    {
+        $servers = $this->all();
+        foreach ($servers['data'] as $server) {
+            if ($server['attributes']['uuid'] === $uuid) {
+                return $server['attributes'];
+            }
+        }
+
+        return "Server with UUID {$uuid} not found";
+    }
+
+    /**
      * Summary of getExternal
      * @param string $id
      * @return mixed
