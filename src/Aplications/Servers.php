@@ -30,7 +30,7 @@ class Servers extends PteroAPI
      */
     public function all()
     {
-        return $this->ptero->makeRequest('GET', $this->endpoint);
+        return $this->ptero->makeRequest('GET', $this->endpoint . '?include=egg,nest,allocations,user,node,location');
     }
 
     /**
@@ -40,7 +40,7 @@ class Servers extends PteroAPI
      */
     public function get(int $id)
     {
-        return $this->ptero->makeRequest('GET', $this->endpoint . '/' . $id);
+        return $this->ptero->makeRequest('GET', $this->endpoint . '/' . $id . '?include=egg,nest,allocations,user,node,location');
     }
 
     /**
@@ -53,12 +53,24 @@ class Servers extends PteroAPI
         $servers = $this->all();
         foreach ($servers['data'] as $server) {
             if ($server['attributes']['uuid'] === $uuid) {
-                return $server['attributes'];
+                return $server;
             }
         }
 
         return "Server with UUID {$uuid} not found";
     }
+
+    // public function getUuid(string $uuid)
+    // {
+    //     $servers = $this->all();
+    //     foreach ($servers['data'] as $server) {
+    //         if ($server['attributes']['uuid'] === $uuid) {
+    //             return $this->get($server['attributes']['id']);
+    //         }
+    //     }
+
+    //     return "Server with UUID {$uuid} not found";
+    // }
 
     /**
      * Summary of getExternal
