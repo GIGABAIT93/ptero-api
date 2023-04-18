@@ -16,6 +16,18 @@ use Gigabait\PteroApi\Client\Server\Network;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
 
+/**
+ * @property-read Servers $servers
+ * @property-read Databases $databases
+ * @property-read Locations $locations
+ * @property-read Allocations $allocations
+ * @property-read Users $users
+ * @property-read Nests $nests
+ * @property-read Eggs $eggs
+ * @property-read Node $node
+ * @property-read Network $network
+ */
+
 class PteroAPI
 {
     protected $api;
