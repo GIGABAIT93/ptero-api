@@ -15,6 +15,7 @@ use Gigabait\PteroApi\Client\Server\Network;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\Http;
 
 /**
  * @property-read Servers $servers
@@ -75,30 +76,20 @@ class PteroAPI
 
     protected function makeRequest($method, $url, $data = null)
     {
-        $this->client = new Client([
-            'base_uri' => $this->url,
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Bearer ' . $this->api
-            ]
-        ]);
-        $options = [];
-        if (!is_null($data)) {
-            $options['form_params'] = $data;
+
+        $method = strtolower($method);
+        $allowedMethods = ['get', 'post', 'put', 'delete'];
+        
+        if (!in_array($method, $allowedMethods)) {
+            throw new \InvalidArgumentException('Invalid HTTP method.');
         }
-        try {
-            $response = $this->client->request($method, $url, $options);
-            $responseData = json_decode($response->getBody(), true);
-            if ($responseData == null) {
-                return true;
-            }
-            return $responseData;
-        } catch (RequestException $e) {
-            if ($e->hasResponse()) {
-                return $e->getResponse();
-            } else {
-                return $e->getMessage();
-            }
-        }
+
+        $headers = [
+            'Authorization' => 'Bearer ' . settings('pterodactyl::api_key'),
+            'Accept' => 'application/json',
+        ];
+        
+        $response = Http::withHeaders($headers)->$method(settings('pterodactyl::api_url'). '/' . $url, $data);
+        return $response;
     }
 }

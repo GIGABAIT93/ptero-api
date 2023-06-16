@@ -79,7 +79,7 @@ class Servers extends PteroAPI
      */
     public function getExternal(string $id)
     {
-        return $this->ptero->makeRequest('GET', $this->endpoint . '/external/' . $id);
+        return $this->ptero->makeRequest('GET', $this->endpoint . '/external/' . $id . '?include=egg,nest,allocations,user,node,location');
     }
 
     /**
@@ -174,7 +174,7 @@ class Servers extends PteroAPI
      */
     public function create(array $params)
     {
-        return $this->ptero->makeRequest('POST', $this->endpoint, $params);
+        return $this->ptero->makeRequest('POST', $this->endpoint. '?include=egg,nest,allocations,user,node,location', $params);
     }
 
     /**
