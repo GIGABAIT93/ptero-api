@@ -43,7 +43,7 @@ class Databases extends PteroAPI
      */
     public function create(int $server_id, array $params)
     {
-        return $this->ptero->makeRequest('POST', $this->endpoint . '/' . $server_id . '/databases', $params . '/databases?include=password,host');
+        return $this->ptero->makeRequest('POST', $this->endpoint . '/' . $server_id . '/databases?include=password,host', $params);
     }
 
     /**
