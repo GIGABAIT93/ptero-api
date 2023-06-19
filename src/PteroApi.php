@@ -12,6 +12,7 @@ use Gigabait\PteroApi\Aplications\Eggs;
 use Gigabait\PteroApi\Aplications\Node;
 
 use Gigabait\PteroApi\Client\Server\Network;
+use Gigabait\PteroApi\Client\Server\Database;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
@@ -71,7 +72,8 @@ class PteroAPI
         $this->node = new Node($this);
 
         // Client
-        $this->network = new Network($this);
+        $this->client->network = new Network($this);
+        $this->client->database = new Database($this);
     }
 
     protected function makeRequest($method, $url, $data = null)
