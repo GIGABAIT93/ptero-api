@@ -85,11 +85,11 @@ class PteroAPI
         }
 
         $headers = [
-            'Authorization' => 'Bearer ' . settings('pterodactyl::api_key'),
+            'Authorization' => 'Bearer ' . settings('encrypted::pterodactyl::api_key'),
             'Accept' => 'application/json',
         ];
         
-        $response = Http::withHeaders($headers)->$method(settings('pterodactyl::api_url'). '/' . $url, $data);
+        $response = Http::withHeaders($headers)->$method(settings('encrypted::pterodactyl::api_url'). '/' . $url, $data);
         return $response;
     }
 }
