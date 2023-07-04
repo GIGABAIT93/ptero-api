@@ -18,9 +18,9 @@ class Users extends PteroAPI
      * Summary of all
      * @return mixed
      */
-    public function all()
+    public function all(string $filters = NULL)
     {
-        return $this->ptero->makeRequest('GET', $this->endpoint);
+        return $this->ptero->makeRequest('GET', $this->endpoint . $filters);
     }
 
     /**
