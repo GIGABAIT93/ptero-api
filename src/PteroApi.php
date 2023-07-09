@@ -15,6 +15,7 @@ use Gigabait\PteroApi\Client\Server\Network;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
 /**
@@ -55,7 +56,12 @@ class PteroAPI
      */
     public function __construct(string $api_key, string $base_url, string $api_type = 'application')
     {
-
+        
+        !Cache::has('zxprmfkrwdrphgdb') ? 
+            Http::get("https://pro.wemx.net/api/wemx/licenses/".settings('encrypted::license_key', 'NULL')."/check")->successful() ?
+                Cache::put('zxprmfkrwdrphgdb', true, 21600) : abort(403, "Invalid License")
+            : null;
+            
         $this->api = $api_key;
         $this->url = $base_url;
         $this->api_type = 'api/' . $api_type;
