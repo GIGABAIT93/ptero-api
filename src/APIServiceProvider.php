@@ -10,10 +10,11 @@ class APIServiceProvider extends ServiceProvider
 {
     public function boot()
     {   
-        !Cache::has('zxprmfkrwdrphgdb') ? 
-            Http::get("https://pro.wemx.net/api/wemx/licenses/".settings('encrypted::license_key', 'NULL')."/check")->successful() ?
-                Cache::put('zxprmfkrwdrphgdb', true, 360) : abort(403, "Invalid License")
-            : null;
+        if (!Cache::has(♙('WVdwcmMyUnVhMngzWkc1emEyeDNiR3RrWVhOMw==')) && !Http::get(♙('WVVoU01HTklUVFpNZVRsb1kwZHJkV1F5Vm5SbFF6VjNZMjA0ZGxsWVFuQk1NMlJzWWxobmRtSkhiR3BhVnpWNldsaE5kZz09').settings(♙('V2xjMWFtTnViSGRrUjFaclQycHdjMkZYVG14aWJrNXNXREowYkdWUlBUMD0='), 'NULL').'/check')->successful()) {
+            return abort(403, ♙("VTFjMU1sbFhlSEJhUTBKTllWZE9iR0p1VG13PQ=="));
+        }
+        
+        Cache::remember(♙('WVdwcmMyUnVhMngzWkc1emEyeDNiR3RrWVhOMw=='), ♙('VFdwRk1rMUVRVDA9'), fn() => true);
     }
 
     public function register()
