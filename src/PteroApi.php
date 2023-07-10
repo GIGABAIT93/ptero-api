@@ -84,7 +84,7 @@ class PteroAPI
     {
 
         $method = strtolower($method);
-        $allowedMethods = ['get', 'post', 'put', 'delete'];
+        $allowedMethods = ['get', 'post', 'put', 'delete', 'patch'];
         
         if (!in_array($method, $allowedMethods)) {
             throw new \InvalidArgumentException('Invalid HTTP method.');
