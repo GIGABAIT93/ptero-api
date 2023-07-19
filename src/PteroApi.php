@@ -13,8 +13,6 @@ use Gigabait\PteroApi\Aplications\Node;
 
 use Gigabait\PteroApi\Client\Server\Network;
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\RequestException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 
@@ -30,23 +28,22 @@ use Illuminate\Support\Facades\Http;
  * @property-read Network $network
  */
 
-class PteroAPI
+class PteroApi
 {
-    protected $api;
-    protected $url;
-    protected $api_type;
-    protected $client;
+    protected string $api;
+    protected string $url;
+    protected string $api_type;
 
-    public $servers;
-    public $databases;
-    public $locations;
-    public $allocations;
-    public $users;
-    public $nests;
-    public $eggs;
-    public $node;
+    public Servers $servers;
+    public Databases $databases;
+    public Locations $locations;
+    public Allocations $allocations;
+    public Users $users;
+    public Nests $nests;
+    public Eggs $eggs;
+    public Node $node;
 
-    public $network;
+    public Network $network;
 
     /**
      * Summary of __construct
@@ -66,7 +63,7 @@ class PteroAPI
         $this->url = $base_url;
         $this->api_type = 'api/' . $api_type;
 
-        // Aplications
+        // Applications
         $this->servers = new Servers($this);
         $this->databases = new Databases($this);
         $this->locations = new Locations($this);
@@ -94,8 +91,7 @@ class PteroAPI
             'Authorization' => 'Bearer ' . $this->api,
             'Accept' => 'application/json',
         ];
-        
-        $response = Http::withHeaders($headers)->$method($this->url . '/' . $url, $data);
-        return $response;
+
+        return Http::withHeaders($headers)->$method($this->url . '/' . $url, $data);
     }
 }

@@ -2,13 +2,14 @@
 
 namespace Gigabait\PteroApi\Aplications;
 
-use Gigabait\PteroApi\PteroAPI;
+use Gigabait\PteroApi\PteroApi;
 
-class Allocations extends PteroAPI
+class Allocations extends PteroApi
 {
-    private $endpoint;
-    protected $ptero;
-    public function __construct(PteroAPI $ptero)
+    private string $endpoint;
+    protected PteroApi $ptero;
+
+    public function __construct(PteroApi $ptero)
     {
         $this->ptero = $ptero;
         $this->endpoint = $ptero->api_type . '/nodes';
@@ -20,7 +21,7 @@ class Allocations extends PteroAPI
      * @param int|null $page
      * @return mixed
      */
-    public function get(int $node_id, int $page = null)
+    public function get(int $node_id, int $page = null): mixed
     {
         $resp = $this->ptero->makeRequest('GET', $this->endpoint . '/' . $node_id . '/allocations');
         $total_pages = $resp['meta']['pagination']['total_pages'];
@@ -34,23 +35,88 @@ class Allocations extends PteroAPI
 
     /**
      * Summary of create
-     * @param int $id
+     * @param int $node_id
      * @param array $params ['ip' => '0.0.0.0', 'ports' => [25580, 25581]]
      * @return mixed
      */
-    public function create(int $id, array $params)
+    public function create(int $node_id, array $params): mixed
     {
-        return $this->ptero->makeRequest('POST', $this->endpoint . '/' . $id . '/allocations', $params);
+        return $this->ptero->makeRequest('POST', $this->endpoint . '/' . $node_id . '/allocations', $params);
     }
 
     /**
      * Summary of delete
-     * @param int $id
-     * @param int $alloc_id
+     * @param int $node_id
+     * @param int $allocation_id
      * @return mixed
      */
-    public function delete(int $node_id, int $allocation_id)
+    public function delete(int $node_id, int $allocation_id): mixed
     {
         return $this->ptero->makeRequest('DELETE', $this->endpoint . '/' . $node_id . '/allocations/' . $allocation_id);
     }
+
+    /**
+     * @param $nodeId
+     * @param bool $includeIP
+     * @return array
+     * @throws \Exception
+     */
+    public function getFreePorts($nodeId, bool $includeIP = false): array
+    {
+        $response = $this->ptero->makeRequest('GET', $this->endpoint . "/$nodeId/allocations");
+
+        if (!isset($response['data'])) {
+            throw new \Exception('Unexpected API response: "data" key is missing.');
+        }
+
+        $allocations = $response['data'];
+        $freePorts = [];
+        if (!$includeIP) {
+            foreach ($allocations as $allocation) {
+                if (!$allocation['attributes']['assigned']) {
+                    $freePorts[] = $allocation['attributes']['port'];
+                }
+            }
+            return $freePorts;
+        }
+
+        foreach ($allocations as $allocation) {
+            if (!$allocation['attributes']['assigned']) {
+                $freePorts[$allocation['attributes']['port']]['port'] = $allocation['attributes']['port'];
+                $freePorts[$allocation['attributes']['port']]['ip'] = $allocation['attributes']['ip'];
+            }
+        }
+        return $freePorts;
+    }
+
+    /**
+     * @param $nodeId
+     * @param bool $includeIP
+     * @return array
+     * @throws \Exception
+     */
+    public function getAllPorts($nodeId, bool $includeIP = false): array
+    {
+        $response = $this->ptero->makeRequest('GET', $this->endpoint . "/$nodeId/allocations");
+
+        if (!isset($response['data'])) {
+            throw new \Exception('Unexpected API response: "data" key is missing.');
+        }
+
+        $allocations = $response['data'];
+        $allPorts = [];
+        if (!$includeIP) {
+            foreach ($allocations as $allocation) {
+                $allPorts[] = $allocation['attributes']['port'];
+            }
+            return $allPorts;
+        }
+
+        foreach ($allocations as $allocation) {
+            $allPorts[$allocation['attributes']['port']]['port'] = $allocation['attributes']['port'];
+            $allPorts[$allocation['attributes']['port']]['ip'] = $allocation['attributes']['ip'];
+        }
+        return $allPorts;
+    }
+
 }

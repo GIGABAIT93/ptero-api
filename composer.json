@@ -37,7 +37,7 @@
                 "Gigabait\\PteroApi\\APIServiceProvider"
             ],
             "aliases": {
-                "PteroApi": "Gigabait\\PteroApi\\PteroApi"
+                "PteroApi": "PteroApi"
             }
         }
     }

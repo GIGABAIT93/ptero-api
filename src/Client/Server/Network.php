@@ -2,13 +2,13 @@
 
 namespace Gigabait\PteroApi\Client\Server;
 
-use Gigabait\PteroApi\PteroAPI;
+use Gigabait\PteroApi\PteroApi;
 
-class Network extends PteroAPI
+class Network extends PteroApi
 {
     private $endpoint;
     protected $ptero;
-    public function __construct(PteroAPI $ptero)
+    public function __construct(PteroApi $ptero)
     {
         $this->ptero = $ptero;
         $this->endpoint = $ptero->api_type . '/servers';
