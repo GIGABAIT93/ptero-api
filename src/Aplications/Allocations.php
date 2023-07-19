@@ -74,7 +74,7 @@ class Allocations extends PteroApi
         if (!$includeIP) {
             foreach ($allocations as $allocation) {
                 if (!$allocation['attributes']['assigned']) {
-                    $freePorts[] = $allocation['attributes']['port'];
+                    $freePorts[$allocation['attributes']['id']] = $allocation['attributes']['port'];
                 }
             }
             return $freePorts;
@@ -107,7 +107,7 @@ class Allocations extends PteroApi
         $allPorts = [];
         if (!$includeIP) {
             foreach ($allocations as $allocation) {
-                $allPorts[] = $allocation['attributes']['port'];
+                $allPorts[$allocation['attributes']['id']] = $allocation['attributes']['port'];
             }
             return $allPorts;
         }
