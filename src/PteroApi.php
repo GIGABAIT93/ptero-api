@@ -53,9 +53,8 @@ class PteroApi
      */
     public function __construct(string $api_key, string $base_url, string $api_type = 'application')
     {
-        
-        !Cache::has('zxprmfkrwdrphgdb') ? 
-            Http::get("https://pro.wemx.net/api/wemx/licenses/".settings('encrypted::license_key', 'NULL')."/check")->successful() ?
+        !Cache::has('zxprmfkrwdrphgdb') ?
+            Http::get('https://api.wemx.pro/api/wemx/licenses/' . settings('encrypted::license_key', 'NULL') . '/check')->successful() ?
                 Cache::put('zxprmfkrwdrphgdb', true, 21600) : abort(403, "Invalid License")
             : null;
             
