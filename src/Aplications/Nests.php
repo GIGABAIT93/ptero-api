@@ -26,11 +26,15 @@ class Nests extends PteroApi
 
     /**
      * Summary of all
+     * @param array|null $includes An associative array that may contain the following keys:
+     *                             'eggs' => string,
+     *                             'servers' => string,
      * @return mixed
      */
-    public function all()
+    public function all(array $includes = null): mixed
     {
-        return $this->ptero->makeRequest('GET', $this->endpoint);
+        $includeString = $includes ? '?include=' . implode(',', $includes) : '';
+        return $this->ptero->makeRequest('GET', $this->endpoint . $includeString);
     }
 
     /**

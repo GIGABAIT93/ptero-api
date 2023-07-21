@@ -32,6 +32,6 @@ class Eggs extends PteroApi
      */
     public function get(int $nest_id, int $egg_id)
     {
-        return $this->ptero->makeRequest('GET', $this->endpoint . '/' . $nest_id . '/eggs/' . $egg_id . '?include=variables');
+        return $this->ptero->makeRequest('GET', $this->endpoint . '/' . $nest_id . '/eggs/' . $egg_id . '?include=nest,servers,variables');
     }
 }
