@@ -63,12 +63,6 @@ class Allocations extends PteroApi
      */
     public function getFreePorts($nodeId, bool $includeIP = false): array
     {
-//        $response = $this->ptero->makeRequest('GET', $this->endpoint . "/$nodeId/allocations");
-//
-//        if (!isset($response['data'])) {
-//            throw new \Exception('Unexpected API response: "data" key is missing.');
-//        }
-
         $allocations =  $this->fetchAllPages($nodeId);
         $freePorts = [];
         if (!$includeIP) {
@@ -97,10 +91,6 @@ class Allocations extends PteroApi
      */
     public function getAllPorts($nodeId, bool $includeIP = false): array
     {
-//        $response = $this->ptero->makeRequest('GET', $this->endpoint . "/$nodeId/allocations");
-//        if (!isset($response['data'])) {
-//            throw new \Exception('Unexpected API response: "data" key is missing.');
-//        }
         $allocations =  $this->fetchAllPages($nodeId);
         $allPorts = [];
         if (!$includeIP) {
