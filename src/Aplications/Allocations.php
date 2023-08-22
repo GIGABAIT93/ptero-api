@@ -63,13 +63,13 @@ class Allocations extends PteroApi
      */
     public function getFreePorts($nodeId, bool $includeIP = false): array
     {
-        $response = $this->ptero->makeRequest('GET', $this->endpoint . "/$nodeId/allocations");
+//        $response = $this->ptero->makeRequest('GET', $this->endpoint . "/$nodeId/allocations");
+//
+//        if (!isset($response['data'])) {
+//            throw new \Exception('Unexpected API response: "data" key is missing.');
+//        }
 
-        if (!isset($response['data'])) {
-            throw new \Exception('Unexpected API response: "data" key is missing.');
-        }
-
-        $allocations = $response['data'];
+        $allocations =  $this->fetchAllPages($nodeId);
         $freePorts = [];
         if (!$includeIP) {
             foreach ($allocations as $allocation) {
@@ -97,13 +97,11 @@ class Allocations extends PteroApi
      */
     public function getAllPorts($nodeId, bool $includeIP = false): array
     {
-        $response = $this->ptero->makeRequest('GET', $this->endpoint . "/$nodeId/allocations");
-
-        if (!isset($response['data'])) {
-            throw new \Exception('Unexpected API response: "data" key is missing.');
-        }
-
-        $allocations = $response['data'];
+//        $response = $this->ptero->makeRequest('GET', $this->endpoint . "/$nodeId/allocations");
+//        if (!isset($response['data'])) {
+//            throw new \Exception('Unexpected API response: "data" key is missing.');
+//        }
+        $allocations =  $this->fetchAllPages($nodeId);
         $allPorts = [];
         if (!$includeIP) {
             foreach ($allocations as $allocation) {
@@ -117,6 +115,30 @@ class Allocations extends PteroApi
             $allPorts[$allocation['attributes']['port']]['ip'] = $allocation['attributes']['ip'];
         }
         return $allPorts;
+    }
+
+
+    private function fetchAllPages($nodeId): array
+    {
+        $page = 1;
+        $allData = [];
+
+        do {
+            $response = $this->ptero->makeRequest('GET', $this->endpoint . "/$nodeId/allocations?page=$page");
+
+            if (!isset($response['data'])) {
+                throw new \Exception('Unexpected API response: "data" key is missing.');
+            }
+
+            $allData = array_merge($allData, $response['data']);
+            if (!isset($response['meta']['pagination'])) {
+                break;
+            }
+            $currentPage = $response['meta']['pagination']['current_page'];
+            $totalPages = $response['meta']['pagination']['total_pages'];
+            $page++;
+        } while ($currentPage < $totalPages);
+        return $allData;
     }
 
 }
