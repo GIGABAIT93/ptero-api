@@ -93,4 +93,17 @@ class PteroApi
 
         return Http::withHeaders($headers)->$method($this->url . '/' . $url, $data);
     }
+
+    public function checkAuthorization(): bool
+    {
+        try {
+            $response = Http::withHeaders([
+                'Authorization' => 'Bearer ' . $this->api,
+                'Accept' => 'application/json',
+            ])->get("$this->url/api/application/nodes");
+            return $response->successful();
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
 }
